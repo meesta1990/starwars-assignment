@@ -1,3 +1,46 @@
 .empire-member-positions {
-    margin-bottom: 22px;
+    margin-top: 22px;
+    display: flex;
+    flex-wrap: wrap;
+    max-height: 160px;
+    height: 0;
+    overflow-y: auto;
+    gap: 20px;
+    transition: all 0.6s ease-in-out;
+}
+
+.empire-member-positions.open {
+    height: 160px;
+}
+
+.map-container .lbl-marker-instructions {
+    transition: opacity 0.6s ease-in-out;
+    text-align: center;
+    opacity: 1;
+}
+
+.map-container .lbl-marker-instructions.hide {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.leaflet-popup-content .name {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.leaflet-marker-pane img{
+    border-radius: 30px;
+}
+
+.map-container {
+    border: 0;
+    background: unset;
+    outline: 0;
+    box-shadow: unset;
+}
+
+.map-container .leaflet-container {
+    opacity: 0.8;
+    box-shadow: 0px 1px 15px 0px var(--secondary)
 }

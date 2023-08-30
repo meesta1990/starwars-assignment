@@ -9,7 +9,7 @@ import {getEmpireMember, getEncryptedMessage} from "./services/RebellionService"
 import { addMessage, updateMessage } from "./store/empireMessageSlice";
 import { strings } from "./assets/Strings";
 import { Map } from "./components/Map/Map";
-import { IEmpireMessage, RootState } from "./types/EmpireMessage";
+import {IEmpireMessage, IEmpireTarget, RootState} from "./types/EmpireMessage";
 
 function App() {
     const [showMessage, setShowMessage] = useState(false);
@@ -35,41 +35,29 @@ function App() {
             getEncryptedMessage().then((response) => {
                 const decryptedMessage = JSON.parse(atob(response.message));
                 if (decryptedMessage) {
+                    const promises = [];
+
                     for(let i=0; i < decryptedMessage.length; i++) {
                         dispatch(addMessage(decryptedMessage[i]));
+                        promises.push(
+                            getEmpireMember(decryptedMessage[i].id).then((response) => {
+                                const empireTarget = response as IEmpireTarget;
+                                empireTarget.lat = decryptedMessage[i].lat;
+                                empireTarget.long = decryptedMessage[i].long;
+                                dispatch(updateMessage(empireTarget));
+                            })
+                        );
                     }
+
+                    Promise.all(promises).then((values) => {
+                        setLoadingDecipher(false);
+                        setShowMessage(false);
+                        setShowMap(true);
+                    });
                 }
-                setShowMessage(false);
-                setShowMap(true);
-            }).finally(() => {
-                setLoadingDecipher(false);
             })
         }, 2000);
     };
-
-    const handleTargetRowRendered = (targetA: IEmpireMessage, targetB: IEmpireMessage) => {
-        if(decryptedMessageState && targetA && targetB){
-            const decryptedMessageStateA = decryptedMessageState.find((decryptedMessage) => decryptedMessage.id === targetA.id);
-            const decryptedMessageStateB = decryptedMessageState.find((decryptedMessage) => decryptedMessage.id === targetB.id);
-
-            if(decryptedMessageStateA && !decryptedMessageStateA.name) {
-                getEmpireMember(decryptedMessageStateA.id).then((response) => {
-                    dispatch(updateMessage(response));
-                }).finally(() => {
-
-                })
-            }
-
-            if(decryptedMessageStateB && !decryptedMessageStateB.name) {
-                getEmpireMember(decryptedMessageStateB.id).then((response) => {
-                    dispatch(updateMessage(response));
-                }).finally(() => {
-
-                })
-            }
-        }
-
-    }
 
     return (
         <div className="App">
@@ -80,6 +68,7 @@ function App() {
                     showMessage={showMessage && !showMap}
                     title={strings.messageReceivedFromRebellionTitle}
                     body={strings.messageReceivedFromRebellionBody}
+                    className="message-from-leia"
                     footer={
                         <LoadingButton
                             color="secondary"
@@ -99,7 +88,6 @@ function App() {
                     showMessage={showMap && !showMessage}
                     body={
                         <Map
-                            onTargetRowRendered={handleTargetRowRendered}
                             empireTargets={decryptedMessageState}
                         />
                     }

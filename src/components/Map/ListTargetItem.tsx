@@ -1,53 +1,46 @@
-import React, { CSSProperties } from 'react';
-import {Avatar, Box, Button, Card, CardActions, CardContent, CardMedia, Skeleton} from "@mui/material";
+import React from 'react';
+import {Avatar, Button, Card, CardActions} from "@mui/material";
 import './ListTargetItem.css'
 import { IEmpireTarget } from "../../types/EmpireMessage";
+import { strings } from "../../assets/Strings";
 
 interface IListTargetItem {
-    empireTargetA?: IEmpireTarget;
-    empireTargetB?: IEmpireTarget;
-    style: CSSProperties;
-}
-
-interface ICardItem extends Partial<IListTargetItem> {
-    target?: IEmpireTarget;
+    empireTarget: IEmpireTarget;
+    distance: number;
 }
 
 export const ListTargetItem = ({
-    empireTargetA,
-    empireTargetB,
-    style,
+    empireTarget,
+    distance
 }: IListTargetItem) => {
     return (
-        <div className="list-target-row" style={style}>
-            <CardItem target={empireTargetA} />
-            <CardItem target={empireTargetB} />
-        </div>
-    )
-}
-
-const CardItem = ({
-    target,
-}: ICardItem) => {
-    if (!target) return <></>;
-    return (
-        <div className="list-target-column">
+        <div className="list-item">
             <Card variant="outlined" sx={{ display: 'flex' }} className="card">
                 <div className="target-image">
                     <Avatar
-                        sx={{ width: 200, height: 200 }}
-                        src={target.image}
-                        alt={target.name}
+                        sx={{ width: 70, height: 70 }}
+                        src={empireTarget.image}
+                        alt={empireTarget.name}
                     />
                 </div>
                 <div className="target-container">
-                    <h3>{target.name}</h3>
-                    <p>
-                        {target.diedLocation && `Deceased in ${target.diedLocation}`}
-                    </p>
+                    <div className="target-name">{empireTarget.name}</div>
+                    <div className="target-died-location">
+                        {empireTarget.diedLocation ? `Deceased in ${empireTarget.diedLocation}` : 'Alive'}
+                    </div>
+                    <div className="target-distance">
+                        <i>{`Distance from you ${Math.round(distance * 100) / 100} km`}</i>
+                    </div>
+                    <Button
+                        size="small"
+                        color="primary"
+                        className="btn-more-info"
+                        onClick={() => window.open(empireTarget.wiki, '_blank')}
+                    >
+                        { strings.btnMoreInfo }
+                    </Button>
                 </div>
             </Card>
-
         </div>
     )
 }
