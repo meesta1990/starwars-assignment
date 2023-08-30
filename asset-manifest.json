@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/meesta1990/starwars-assignment/static/css/main.9bd5cedc.css",
+    "main.js": "/meesta1990/starwars-assignment/static/js/main.b9849294.js",
+    "static/js/787.e28a18b9.chunk.js": "/meesta1990/starwars-assignment/static/js/787.e28a18b9.chunk.js",
+    "static/media/cockpit.png": "/meesta1990/starwars-assignment/static/media/cockpit.12162dee369591fb630d.png",
+    "index.html": "/meesta1990/starwars-assignment/index.html",
+    "main.9bd5cedc.css.map": "/meesta1990/starwars-assignment/static/css/main.9bd5cedc.css.map",
+    "main.b9849294.js.map": "/meesta1990/starwars-assignment/static/js/main.b9849294.js.map",
+    "787.e28a18b9.chunk.js.map": "/meesta1990/starwars-assignment/static/js/787.e28a18b9.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.9bd5cedc.css",
+    "static/js/main.b9849294.js"
+  ]
+}
