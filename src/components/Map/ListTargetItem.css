@@ -1,0 +1,25 @@
+.list-target-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.list-target-column {
+    flex: 1;
+}
+
+.list-target-column .card {
+    gap:20px;
+    background: var(--white);
+    padding-bottom: 20px;
+}
+
+.list-target-column .target-image {
+    background: var(--primary);
+    padding: 20px;
+}
+
+.list-target-column .target-image img {
+    height: 300px;
+    width: 300px;
+}
