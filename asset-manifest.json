@@ -1,16 +1,16 @@
 {
   "files": {
     "main.css": "/starwars-assignment/static/css/main.42c88778.css",
-    "main.js": "/starwars-assignment/static/js/main.7ac378f8.js",
+    "main.js": "/starwars-assignment/static/js/main.49a00420.js",
     "static/js/787.e28a18b9.chunk.js": "/starwars-assignment/static/js/787.e28a18b9.chunk.js",
     "static/media/cockpit.png": "/starwars-assignment/static/media/cockpit.12162dee369591fb630d.png",
     "index.html": "/starwars-assignment/index.html",
     "main.42c88778.css.map": "/starwars-assignment/static/css/main.42c88778.css.map",
-    "main.7ac378f8.js.map": "/starwars-assignment/static/js/main.7ac378f8.js.map",
+    "main.49a00420.js.map": "/starwars-assignment/static/js/main.49a00420.js.map",
     "787.e28a18b9.chunk.js.map": "/starwars-assignment/static/js/787.e28a18b9.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.42c88778.css",
-    "static/js/main.7ac378f8.js"
+    "static/js/main.49a00420.js"
   ]
 }
