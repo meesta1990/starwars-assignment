@@ -2,10 +2,7 @@
   --primary: #dd4e1e;
   --secondary: #e5703d;
   --white: #f0ece1;
-}
-
-html {
-  overflow: hidden;
+  --app-height: 100%;
 }
 
 .content {
@@ -13,8 +10,15 @@ html {
   color: var(--white);
   z-index: 1;
   height: 100vh;
+
+
 }
 
+@media not all and (hover:hover) {
+  .content {
+    height: var(--app-height);
+  }
+}
 @media only screen and (min-width: 1024px) {
   .content .message-from-leia {
     max-width: 380px;

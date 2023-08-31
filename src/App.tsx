@@ -15,48 +15,55 @@ function App() {
     const [showMessage, setShowMessage] = useState(false);
     const [showMap, setShowMap] = useState(false);
     const [loadingDecipher, setLoadingDecipher] = useState(false);
-    let fakeHeavyLoad: NodeJS.Timeout | undefined;
     const dispatch = useDispatch();
     const decryptedMessageState = useSelector((state: RootState) => state.empireMessageSlice);
+    let lastScrollY = window.scrollY;
+
+    //calculate height without address bar
+    const appHeight = () => {
+        const doc = document.documentElement
+        doc.style.setProperty('--app-height', `${window.innerHeight}px`)
+    }
 
     useEffect(() => {
+        appHeight();
+        window.addEventListener('resize', appHeight);
+
         setTimeout(() => {
             setShowMessage(true)
         }, 1000)
+        return () => {
+            window.removeEventListener('resize', () => {})
+        }
     }, []);
 
     const handleDecipherMessage = () => {
         setLoadingDecipher(true);
 
-        if(fakeHeavyLoad) {
-            clearTimeout(fakeHeavyLoad)
-        }
-        fakeHeavyLoad = setTimeout(() => {
-            getEncryptedMessage().then((response) => {
-                const decryptedMessage = JSON.parse(atob(response.message));
-                if (decryptedMessage) {
-                    const promises = [];
+        getEncryptedMessage().then((response) => {
+            const decryptedMessage = JSON.parse(atob(response.message));
+            if (decryptedMessage) {
+                const promises = [];
 
-                    for(let i=0; i < decryptedMessage.length; i++) {
-                        dispatch(addMessage(decryptedMessage[i]));
-                        promises.push(
-                            getEmpireMember(decryptedMessage[i].id).then((response) => {
-                                const empireTarget = response as IEmpireTarget;
-                                empireTarget.lat = decryptedMessage[i].lat;
-                                empireTarget.long = decryptedMessage[i].long;
-                                dispatch(updateMessage(empireTarget));
-                            })
-                        );
-                    }
-
-                    Promise.all(promises).then((values) => {
-                        setLoadingDecipher(false);
-                        setShowMessage(false);
-                        setShowMap(true);
-                    });
+                for(let i=0; i < decryptedMessage.length; i++) {
+                    dispatch(addMessage(decryptedMessage[i]));
+                    promises.push(
+                        getEmpireMember(decryptedMessage[i].id).then((response) => {
+                            const empireTarget = response as IEmpireTarget;
+                            empireTarget.lat = decryptedMessage[i].lat;
+                            empireTarget.long = decryptedMessage[i].long;
+                            dispatch(updateMessage(empireTarget));
+                        })
+                    );
                 }
-            })
-        }, 2000);
+
+                Promise.all(promises).then((values) => {
+                    setLoadingDecipher(false);
+                    setShowMessage(false);
+                    setShowMap(true);
+                });
+            }
+        })
     };
 
     return (
@@ -78,7 +85,7 @@ function App() {
                             loadingPosition="end"
                             variant="contained"
                         >
-                            { strings.messageReceivedBtn }
+                            <span>{ loadingDecipher ? strings.messageReceivedDecipheringBtn : strings.messageReceivedBtn }</span>
                         </LoadingButton>
                     }
                 />

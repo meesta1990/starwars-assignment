@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { MutableRefObject, useEffect, useRef, useState } from 'react';
 import classNames from "classnames";
 import { MapContainer, Marker, Popup, TileLayer, useMapEvents } from "react-leaflet";
 import L, { LatLng, LatLngExpression } from "leaflet";
@@ -21,6 +21,7 @@ export const Map = ({
 }: IMap) => {
     const [userPosition, setUserPosition] = useState<LatLng>();
     const [sortedDistances, setSortedDistances] = useState<IEmpireTarget[]>([]);
+    const mapRef: MutableRefObject<L.Map | null> = useRef(null);
 
     useEffect(() => {
         if(userPosition){
@@ -36,12 +37,19 @@ export const Map = ({
         setUserPosition(userPosition);
     };
 
+    const handleFocusTargetOnMap = (target: IEmpireTarget) => {
+        if (mapRef.current && target) {
+            mapRef.current?.flyTo(new LatLng(target.lat, target.long), 12);
+        }
+    }
+
     return (
         <div style={{ width: '100%' }}>
             <p className={classNames('lbl-marker-instructions', userPosition && 'hide')}>
                 { strings.lblMarkerInstructions }
             </p>
             <MapContainer
+                ref={mapRef}
                 center={[0, 0]}
                 zoom={2}
                 scrollWheelZoom
@@ -63,6 +71,7 @@ export const Map = ({
                             distance={calculateDistanceBetweenTwoPoints(userPosition, new LatLng(sortedDistance.lat ?? 0,sortedDistance.long ?? 0) )}
                             key={sortedDistance.id}
                             empireTarget={sortedDistance}
+                            onTargetClick={() => handleFocusTargetOnMap(sortedDistance)}
                         />
                     )
                 }

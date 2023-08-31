@@ -21,9 +21,9 @@ export const MessageReceived = ({
         <div className={classNames('wrapper-message', className, showMessage && 'active')}>
             { title &&
                 <>
-                    <h2 className="title">
+                    <h3 className="title">
                         { title }
-                    </h2>
+                    </h3>
                     <div className="divider" />
                 </>
             }

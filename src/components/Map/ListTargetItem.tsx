@@ -1,5 +1,5 @@
 import React from 'react';
-import {Avatar, Button, Card, CardActions} from "@mui/material";
+import { Avatar, Button, Card } from "@mui/material";
 import './ListTargetItem.css'
 import { IEmpireTarget } from "../../types/EmpireMessage";
 import { strings } from "../../assets/Strings";
@@ -7,15 +7,17 @@ import { strings } from "../../assets/Strings";
 interface IListTargetItem {
     empireTarget: IEmpireTarget;
     distance: number;
+    onTargetClick(): void;
 }
 
 export const ListTargetItem = ({
     empireTarget,
-    distance
+    distance,
+    onTargetClick
 }: IListTargetItem) => {
     return (
         <div className="list-item">
-            <Card variant="outlined" sx={{ display: 'flex' }} className="card">
+            <Card variant="outlined" sx={{ display: 'flex' }} className="card" onClick={onTargetClick}>
                 <div className="target-image">
                     <Avatar
                         sx={{ width: 70, height: 70 }}
@@ -29,16 +31,17 @@ export const ListTargetItem = ({
                         {empireTarget.diedLocation ? `Deceased in ${empireTarget.diedLocation}` : 'Alive'}
                     </div>
                     <div className="target-distance">
-                        <i>{`Distance from you ${Math.round(distance * 100) / 100} km`}</i>
+                        <i>{`${Math.round(distance * 100) / 100} km away`}</i>
                     </div>
-                    <Button
-                        size="small"
-                        color="primary"
-                        className="btn-more-info"
-                        onClick={() => window.open(empireTarget.wiki, '_blank')}
-                    >
-                        { strings.btnMoreInfo }
-                    </Button>
+                    <span className="wrapper-open-info">
+                         <Button
+                             size="small"
+                             color="primary"
+                             onClick={() => window.open(empireTarget.wiki, '_blank')}
+                         >
+                            { strings.btnMoreInfo }
+                        </Button>
+                    </span>
                 </div>
             </Card>
         </div>

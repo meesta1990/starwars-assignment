@@ -15,8 +15,12 @@
     box-shadow: 0px 1px 15px 0px var(--secondary)
 }
 
-.list-item .card .name {
-    font-size: 1.5rem;
+.list-item .card .target-image {
+    display: flex;
+    align-items: center;
+}
+
+.list-item .card .target-name {
     font-weight: bold;
 }
 
@@ -28,13 +32,19 @@
 .list-item .card .target-distance {
     font-size: 1rem;
     color: #777;
-    margin-top: 12px;
+    margin-bottom: 22px;
 }
 
-.list-item .card .btn-more-info {
+.list-item .card .wrapper-open-info {
     position: absolute;
     right: 8px;
     bottom: 8px;
+}
+
+@media only screen and (min-width: 1024px) {
+    .list-item .card .target-distance {
+        margin-top: 12px;
+    }
 }
 
 @media only screen and (min-width: 1400px) {
