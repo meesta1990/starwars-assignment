@@ -17,7 +17,6 @@ function App() {
     const [loadingDecipher, setLoadingDecipher] = useState(false);
     const dispatch = useDispatch();
     const decryptedMessageState = useSelector((state: RootState) => state.empireMessageSlice);
-    let lastScrollY = window.scrollY;
 
     //calculate height without address bar
     const appHeight = () => {
