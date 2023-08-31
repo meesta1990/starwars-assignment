@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { MouseEvent } from 'react';
 import { Avatar, Button, Card } from "@mui/material";
 import './ListTargetItem.css'
 import { IEmpireTarget } from "../../types/EmpireMessage";
@@ -15,6 +15,11 @@ export const ListTargetItem = ({
     distance,
     onTargetClick
 }: IListTargetItem) => {
+    const handleOpenInfo = (e: MouseEvent<HTMLButtonElement>) => {
+        e.stopPropagation();
+        window.open(empireTarget.wiki, '_blank')
+    }
+
     return (
         <div className="list-item">
             <Card variant="outlined" sx={{ display: 'flex' }} className="card" onClick={onTargetClick}>
@@ -37,7 +42,7 @@ export const ListTargetItem = ({
                          <Button
                              size="small"
                              color="primary"
-                             onClick={() => window.open(empireTarget.wiki, '_blank')}
+                             onClick={handleOpenInfo}
                          >
                             { strings.btnMoreInfo }
                         </Button>
